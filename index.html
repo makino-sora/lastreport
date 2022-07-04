@@ -22,11 +22,8 @@
         var renderer = new THREE.WebGLRenderer();
         document.body.appendChild(renderer.domElement);
         renderer.setSize(width, height);
-        var textureLoader1 = new THREE.TextureLoader();
-        var texture1 = textureLoader1.load("sougen.jpg");
-        var mat1 = new THREE.MeshPhongMaterial();
-        mat1.map = texture1;
-        renderer.setClearColor(mat1);
+        
+        renderer.setClearColor(0x00bfff);
         // シーンを作成
         const scene = new THREE.Scene();
 
