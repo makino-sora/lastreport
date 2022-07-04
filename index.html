@@ -1,0 +1,365 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/three@0.137.4/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
+  </head>
+<body>
+ <script>
+      // ページの読み込みを待つ
+      window.addEventListener('DOMContentLoaded', init);
+
+      function init() {
+        // サイズを指定
+        const width = 1500
+        const height = 1000;
+
+        // レンダラーを作成
+        var renderer = new THREE.WebGLRenderer();
+        document.body.appendChild(renderer.domElement);
+        renderer.setSize(width, height);
+        renderer.setClearColor(mat1);
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(25, 30, 50);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera, document.body); 
+        
+        // 平行光源1
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+        directionalLight1.position.set(10, 10, 10);
+        // シーンに追加
+        scene.add(directionalLight1);
+        // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0x888888);
+        directionalLight2.position.set(-5, -5, -5);
+        // シーンに追加
+        scene.add(directionalLight2);
+        var textureLoader1 = new THREE.TextureLoader();
+        var texture1 = textureLoader1.load("sougen.jpg");
+        var mat1 = new THREE.MeshPhongMaterial();
+        mat1.map = texture1;
+        var textureLoader2 = new THREE.TextureLoader();
+        var texture2 = textureLoader2.load("renga.jpg");
+        var mat2 = new THREE.MeshPhongMaterial();
+        mat2.map = texture2;
+        var textureLoader3 = new THREE.TextureLoader();
+        var texture3 = textureLoader1.load("monr.jpg");
+        var mat3 = new THREE.MeshPhongMaterial();
+        mat3.map = texture3;
+        var textureLoader4 = new THREE.TextureLoader();
+        var texture4 = textureLoader2.load("monl.jpg");
+        var mat4 = new THREE.MeshPhongMaterial();
+        mat4.map = texture4;
+        // 平面を作成
+        var planeGeometry = new THREE.PlaneGeometry(5,5,10,10); //縦、横、分割数、分割数
+        
+        var plane = new THREE.Mesh(planeGeometry,mat1);
+        plane.rotation.set( -Math.PI/2, 0, 0 );
+        plane.position.set(0,0.73,-1.25);
+        var planeGeometry2 = new THREE.PlaneGeometry(40,1000,10,10); //縦、横、分割数、分割数
+        var planeMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        var plane2 = new THREE.Mesh(planeGeometry2,mat1);
+        plane2.rotation.set( -Math.PI/2, 0, 0 );
+        plane2.position.set(0,0.73,-1.25);
+        scene.add(plane2);
+        
+        //ゲート作成
+        var geometry = new THREE.BoxGeometry(0.5, 8, 10);
+        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+        var box = new THREE.Mesh(geometry, mat2);
+        box.position.set(3,3.5,-2.5);
+        scene.add(box);
+        var box2 = new THREE.Mesh(geometry, mat2);
+        box2.position.set(-3,3.5,-2.5);
+        scene.add(box2);
+        var geometryp = new THREE.BoxGeometry(3, 8, 0.01);
+        
+        var box4 = new THREE.Mesh(geometryp, mat4);
+        box4.position.set(1.5,3.5,2);
+        
+        scene.add(box4);
+
+        var box5 = new THREE.Mesh(geometryp, mat3);
+        box5.position.set(-1.5,3.5,2);
+        
+        scene.add(box5);
+        //var geometryp = new THREE.PlaneGeometry( 3, 8, 3 );
+        
+        //var plane3 = new THREE.Mesh( geometryp, material );
+        //plane3.position.set(-1.5,3.5,2);
+        //scene.add( plane3 )
+        //var plane4 = new THREE.Mesh( geometryp, material );
+        //plane4.position.set(1.5,3.5,2);
+       // scene.add( plane4 )
+        //plane3.rotation.y = 2
+        var geometry_b = new THREE.BoxGeometry(6.5, 0.5, 10);
+        var box3 = new THREE.Mesh(geometry_b, mat2);
+        box3.position.set(0,7.5,-2.5);
+        scene.add(box3);
+        var geometry_b2 = new THREE.BoxGeometry(6, 8, 1);
+        var box6 = new THREE.Mesh(geometry_b2, mat2);
+        box6.position.set(0,3.5,-7);
+        scene.add(box6);
+
+        
+        // 頭を作成
+        var head_g = new THREE.SphereGeometry( 0.5, 32, 32 );
+        var material_b = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        var head = new THREE.Mesh(head_g, material_b);
+        head.scale.z = 1.8;
+        head.rotation.x= 0.5;
+        head.position.set(0,2,0.5);//allの中心が原点になる
+        var hear1_g = new THREE.SphereGeometry( 0.2, 32, 32 );
+        var hear1 = new THREE.Mesh(hear1_g, material_b);
+        hear1.scale.x=0.5;
+        hear1.scale.y=1.2;
+        hear1.position.set(0.3,2.5,0);//allの中心が原点になる
+        var hear2_g = new THREE.SphereGeometry( 0.2, 32, 32 );
+        var hear2 = new THREE.Mesh(hear2_g, material_b);
+        hear2.scale.x=0.5;
+        hear2.scale.y=1.2;
+        hear2.position.set(-0.3,2.5,0);
+        //首
+        var kubi_g = new THREE.SphereGeometry( 0.4, 32, 32 );
+        var kubi = new THREE.Mesh( kubi_g, material_b);
+        kubi.scale.z =2;
+        kubi.rotation.x= 2;
+        kubi.position.set(0,1.8,-0.2);
+        scene.add( kubi );
+
+        //体を作成
+        var body_g = new THREE.SphereGeometry( 0.7, 32, 32 );
+        var body = new THREE.Mesh( body_g, material_b);
+        body.scale.z =2;
+        body.position.set(0,0.9,-1.5);
+
+        //左足を作成
+        var leg_g = new THREE.SphereGeometry( 0.25, 32, 32 );
+        var lleg = new THREE.Mesh( leg_g, material_b);
+        lleg.scale.y = 4;
+        lleg.scale.x = 1;
+        lleg.position.set(0.35,0.2,-2.2);
+        //右足を作成
+        var rleg = new THREE.Mesh( leg_g, material_b);
+        rleg.scale.y = 4;
+        //rleg.scale.x = 1;
+        rleg.position.set(-0.35,0.2,-2.2);
+        
+        //右前足を作成
+      
+        var rfleg = new THREE.Mesh( leg_g, material_b);
+        rfleg.scale.y = 4;
+        rleg.scale.x = 1;
+        rfleg.position.set(-0.35,0.2,-0.7);
+
+        //左前脚を作成
+        var lfleg = new THREE.Mesh( leg_g, material_b);
+        lfleg.scale.y = 4;
+        lleg.scale.x = 1;
+        lfleg.position.set(0.35,0.2,-0.7);
+
+        
+
+        //左目
+        var eye_g = new THREE.SphereGeometry( 0.1, 32, 32 );
+        var material_black = new THREE.MeshPhongMaterial({ color: 0x000000 });
+       
+        var l_eye = new THREE.Mesh( eye_g, material_black);
+        l_eye.position.set(0.3,2.4,0.42);
+        //黒目
+        var blackeye_g=new THREE.SphereGeometry(0.05,32.32);
+        var material_eye = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        var l_black = new THREE.Mesh( blackeye_g, material_eye);
+        l_black.position.set(0.32,2.45,0.4);
+        //右目
+        var r_eye = new THREE.Mesh( eye_g, material_black);
+        r_eye.position.set(-0.3,2.4,0.45);
+        var r_black = new THREE.Mesh( blackeye_g, material_eye);
+        r_black.position.set(-0.32,2.45,0.4);
+        //鼻
+        var nose_g=new THREE.SphereGeometry(0.1,32.32);
+        var l_nose = new THREE.Mesh( nose_g, material_black);
+        l_nose.scale.x = 1.2;
+        l_nose.scale.y = 1.5;
+        l_nose.rotation.x = -1;
+        l_nose.position.set(0.15,2,1.1);
+        var r_nose = new THREE.Mesh( nose_g, material_black);
+        r_nose.scale.x = 1.2;
+        r_nose.scale.y = 1.5;
+        r_nose.rotation.x = -1;
+        r_nose.position.set(-0.15,2,1.1);
+        //尻尾
+        var tail_g = new THREE.SphereGeometry( 0.1, 32, 32 );
+        var material_kami = new THREE.MeshPhongMaterial({ color: 0xb0c4de });
+        var tail = new THREE.Mesh( tail_g, material_kami);
+        tail.scale.y = 5;
+        tail.rotation.x = -2;
+        tail.position.set(0,1.15,-3);
+
+        var tume_g = new THREE.CylinderGeometry( 0.2, 0.2, 0.2, 30);
+        var tume1 = new THREE.Mesh( tume_g, material_black );
+        tume1.position.set( 0.33, -0.7, -0.7 );
+        var tume2 = new THREE.Mesh( tume_g, material_black );
+        tume2.position.set( -0.33, -0.7, -0.7 );
+        var tume3 = new THREE.Mesh( tume_g, material_black );
+        tume3.position.set( 0.33, -0.7, -2.2 );
+        var tume4 = new THREE.Mesh( tume_g, material_black );
+        tume4.position.set( -0.33, -0.7, -2.2 );
+        //鬣の作成
+        var kami_g = new THREE.SphereGeometry( 0.15, 32, 32 );
+       
+        var kami1 = new THREE.Mesh( tail_g, material_kami);
+        kami1.position.set(0,2.4,-0.3);
+        var kami2 = new THREE.Mesh( tail_g, material_kami);
+        kami2.position.set(0,2.15,-0.48);
+        var kami3 = new THREE.Mesh( tail_g, material_kami);
+        kami3.position.set(0,1.85,-0.58);
+        var wing_g = new THREE.SphereGeometry( 0.1, 32, 32 );
+        var wing = new THREE.Mesh( wing_g, material_b);
+        wing.scale.z = 10;
+        wing.scale.y = 2.5;
+        wing.rotation.x = 1;
+        wing.position.set(0.35,2.1,-1.4);
+        var wing_gp = new THREE.SphereGeometry( 0.05, 32, 32 );
+        var wing_p1 = new THREE.Mesh( wing_gp, material_b);
+        wing_p1.scale.z = 11;
+        wing_p1.scale.y = 5;
+        wing_p1.position.set(0.38,2.8,-2.2);
+        var wing_p2 = new THREE.Mesh( wing_gp, material_b);
+        wing_p2.scale.z = 10;
+        wing_p2.scale.y = 5;
+        wing_p2.position.set(0.38,2.35,-2.1);
+        var wing_p3 = new THREE.Mesh( wing_gp, material_b);
+        wing_p3.scale.z = 10;
+        wing_p3.scale.y = 5;
+        wing_p3.position.set(0.38,1.9,-1.95);
+        var wing2 = new THREE.Mesh( wing_g, material_b);
+        wing2.scale.z = 10;
+        wing2.scale.y = 2.5;
+        wing2.rotation.x = 1;
+        wing2.position.set(-0.35,2.1,-1.4);
+        var wing_p4 = new THREE.Mesh( wing_gp, material_b);
+        wing_p4.scale.z = 11;
+        wing_p4.scale.y = 5;
+        wing_p4.position.set(-0.38,2.8,-2.2);
+        var wing_p5 = new THREE.Mesh( wing_gp, material_b);
+        wing_p5.scale.z = 10;
+        wing_p5.scale.y = 5;
+        wing_p5.position.set(-0.38,2.35,-2.1);
+        var wing_p6 = new THREE.Mesh( wing_gp, material_b);
+        wing_p6.scale.z = 10;
+        wing_p6.scale.y = 5;
+        wing_p6.position.set(-0.38,1.9,-1.95);
+        //熊のオブジェクト
+        const wing_all = new THREE.Group();
+        wing_all.add(wing);
+        wing_all.add(wing_p1); 
+        wing_all.add(wing_p2);
+        wing_all.add(wing_p3);
+        wing_all.position.set(0,0,0);
+        //if(bear.position.y>10){
+        //wing_all.rotation.z = -1.5;
+        //wing_all.position.set(-1,1.5,0);
+       // }
+        
+        scene.add(wing_all);
+        const wing_all2 = new THREE.Group();
+        wing_all2.add(wing2);
+        wing_all2.add(wing_p4); 
+        wing_all2.add(wing_p5);
+        wing_all2.add(wing_p6);
+        wing_all2.position.set(0,0,0);
+        scene.add(wing_all2);
+        const uma = new THREE.Group();
+        uma.add(head); 
+        uma.add(hear1);
+        uma.add(hear2);
+        uma.add(body); 
+        uma.add(lleg); 
+        uma.add(rleg); 
+        uma.add(lfleg); 
+        uma.add(rfleg);        
+         uma.add(tume1);
+        uma.add(tume2);
+        uma.add(tume3);
+        uma.add(tume4);
+        uma.add(kami1);
+        uma.add(kami2);
+        uma.add(kami3);
+        uma.add(l_eye); 
+        uma.add(l_black);
+        uma.add(r_black);
+        uma.add(l_nose);
+        uma.add(r_nose);
+        uma.add(r_eye); 
+        uma.add(tail);
+        uma.add(kubi);
+        uma.add(wing_all);
+      
+        uma.add(wing_all2);
+        
+        uma.position.set(0,2,-4);
+        scene.add(uma);
+
+        //全体のオブジェクト
+        const all = new THREE.Group();
+        all.add(plane);//平面を追加
+        
+        all.add(uma); // ペンギンを追加
+        all.position.set(0,0,0);//全体グループの原点の位置
+        scene.add(all); 
+       
+        const all2 = new THREE.Group();
+        
+        all.add(uma); // ペンギンを追加
+        all.position.set(0,0,0);//全体グループの原点の位置
+        scene.add(all2); 
+
+        update();
+       
+        // 毎フレーム時に実行されるループイベントです
+        function update() {
+          // レンダリング
+          if( uma.position.z >0){
+            box4.rotation.y =2;
+            box4.position.set(3.5,3.5,3.8);
+            box5.rotation.y =-2;
+            box5.position.set(-3.5,3.5,3.8);
+          }
+          if( uma.position.z>5){
+            wing_all.rotation.z = -1.5;
+            wing_all.position.set(-1,1.5,0);
+            wing_all2.rotation.z = 1.5;
+            wing_all2.position.set(1,1.5,0);
+        
+        }
+          uma.position.z += 0.05;
+       
+        if(uma.position.z>10){
+        
+        uma.position.y +=0.05;
+        
+         }
+         if(uma.position.y>20){
+          uma.position.z -= 0.05;
+          uma.position.y -=0.05;
+          uma.rotation.y =1
+          all.rotation.y +=0.01
+        }
+         renderer.render(scene, camera);
+        requestAnimationFrame(update);
+        }
+        
+
+         
+        
+      }
+    </script>
+</body>
+</html>
